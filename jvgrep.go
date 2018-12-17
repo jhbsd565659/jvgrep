@@ -88,7 +88,7 @@ var (
 	fullpath     = true       // show full path
 	after        = 0          // show after lines
 	before       = 0          // show before lines
-	separator    = ":"        // column separator
+	separator    = " :"        // column separator
 )
 
 var replbytes = []byte{0xef, 0xbf, 0xbd} // bytes representation of the replacement rune '\uFFFD'
@@ -606,7 +606,7 @@ Output control:
   -o               : show only the part of a line matching PATTERN
   -v               : select non-matching lines
   -Z, --null       : print 0 byte after FILE name
-  --separator=CHAR : set column separator to CHAR (default: ":")
+  --separator=CHAR : set column separator to CHAR (default: " :")
 
 Context control:
   -B NUM           : print NUM lines of leading context
