@@ -438,7 +438,7 @@ func doGrep(path string, fb []byte, arg *GrepArg) bool {
 				if match {
 					matchedIndex = matches[0][0]
 				}
-				if arg.single && !number {
+				if arg.single {
 					if utf8.Valid(t) {
 						matchedLine("", -1, matchedIndex, string(t), arg)
 					} else {
@@ -516,13 +516,29 @@ func Grep(arg *GrepArg) bool {
 	n := false
 	if in, ok := arg.input.(io.Reader); ok {
 		stdin := bufio.NewReader(in)
-		for {
-			f, _, err := stdin.ReadLine()
-			if doGrep("stdin", f, arg) {
-				n = true
+		if after <= 0 && before <= 0 {
+			for {
+				f, _, err := stdin.ReadLine()
+				if doGrep("stdin", f, arg) {
+					n = true
+				}
+				if err != nil {
+					break
+				}
 			}
-			if err != nil {
-				break
+		} else {
+			r := []byte{}
+			arg.single = false
+			for {
+				f, _, err := stdin.ReadLine()
+				r = append(r, []byte{'\n'}...)
+				r = append(r, f...)
+				if err != nil {
+					break
+				}
+			}
+			if doGrep("stdin", r, arg) {
+				n = true
 			}
 		}
 		return n
