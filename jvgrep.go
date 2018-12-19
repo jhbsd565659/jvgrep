@@ -25,7 +25,7 @@ import (
 	"golang.org/x/text/transform"
 )
 
-const version = "5.6.1u"
+const version = "5.6.2u"
 
 const (
 	cMAGENTA = "\x1b[35;1m" // Color mazenta
@@ -516,7 +516,7 @@ func Grep(arg *GrepArg) bool {
 	n := false
 	if in, ok := arg.input.(io.Reader); ok {
 		stdin := bufio.NewReader(in)
-		if after <= 0 && before <= 0 {
+		if after <= 0 && before <= 0 && ! number {
 			for {
 				f, _, err := stdin.ReadLine()
 				if doGrep("stdin", f, arg) {
